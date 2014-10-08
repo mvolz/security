@@ -82,7 +82,7 @@
 
 				<section data-state="injection">
 					<section>
-					<h1><a href="https://www.owasp.org/index.php/Top_10_2013-A1-Injection" title="Top 10 2013-A1-Injection">A1-Injection
+					<h1><a href="https://www.owasp.org/index.php/Top_10_2013-A1-Injection" title="Top 10 2013-A1-Injection">Injection
 					</a>
 					</h1>
 					<p>Injection flaws, such as SQL, OS, and LDAP injection occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.
@@ -128,7 +128,7 @@ Rails PaperClip Plug-in 2.3.2 + performs path filtering.
 				<section data-state="auth">
 					<section>
 					<h3><a href="https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management" title="Top 10 2013-A2-Broken Authentication and Session Management">
-					A2-Broken Authentication and Session Management
+					Broken Authentication and Session Management
 					</a></h3>
 					<p>Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords, keys, or session tokens, or  to exploit other implementation flaws to assume other users’ identities.
 					</p>
@@ -273,7 +273,7 @@ bcrypt.compare("not my password", hash, function(err, res) {
 				<section data-state="direct">
 					<section>
 						<a href="https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References" title="Top 10 2013-A4-Insecure Direct Object References">
-						A4-Insecure Direct Object References
+						Insecure Direct Object References
 						</a>
 						<p>A direct object reference occurs when a developer exposes a reference to an internal implementation object, such as a file, directory, or database key. Without an access control check or other protection, attackers can manipulate these references to access unauthorized data.
 						</p>
@@ -310,7 +310,7 @@ bcrypt.compare("not my password", hash, function(err, res) {
 				<section data-state="misconfig">
 					<section>
 						<a href="https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration" title="Top 10 2013-A5-Security Misconfiguration">
-						A5-Security Misconfiguration
+						Security Misconfiguration
 						</a>
 						<p>Good security requires having a secure configuration defined and deployed for the application, frameworks, application server, web server, database server, and platform. Secure settings should be defined, implemented, and maintained, as defaults are often insecure. Additionally, software should be kept up to date.
 						</p>
@@ -325,7 +325,7 @@ bcrypt.compare("not my password", hash, function(err, res) {
 					<li class="fragment">Buy an SSL certificate!</li>
 					<li class="fragment">Lack of logging: Node has no apache logs! (<a href="https://www.npmjs.org/package/winston">winston</a>, <a href="https://www.npmjs.org/package/bunyan">Bunyan</a>)</li>
 					</ul>
-					<p>-Matt Lowe, <a href="https://blog.liftsecurity.io/2014/08/15/Node-Security-and-Performance-Training-is-coming-to-London">Node Security Training"</a> 16-09-14</p>
+					<p>-Matt Lowe, <a href="https://blog.liftsecurity.io/2014/08/15/Node-Security-and-Performance-Training-is-coming-to-London">Node Security Training</a> 16-09-14</p>
 					<aside class = "notes">
 						I couldn't use iframes a lot on this presentation because of X-Frame-Options: deny option was set on a lot of sites! 
 						Prevents click jacking, where someone uses your website in another website. 
@@ -539,7 +539,7 @@ except ImportError:
 				<section data-state="missingcontrol">
 					<section>
 						<a href="https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control" title="Top 10 2013-A7-Missing Function Level Access Control">
-						A7-Missing Function Level Access Control
+						Missing Function Level Access Control
 						</a>
 						<p>Most web applications verify function level access rights before making that functionality visible in the UI. However, applications need to perform the same access control checks on the server when each function is accessed. If requests are not verified, attackers will be able to forge requests in order to access functionality without proper authorization.
 						</p>
@@ -549,7 +549,7 @@ except ImportError:
 				<section data-state="csrf">
 					<section>
 						<a href="https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)" title="Top 10 2013-A8-Cross-Site Request Forgery (CSRF)">
-						A8-Cross-Site Request Forgery (CSRF)
+						Cross-Site Request Forgery (CSRF)
 						</a>
 						<p>A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim.
 						</p>
