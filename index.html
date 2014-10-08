@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Learn Security the Hard Way</title>
+
+		<meta name="description" content="Learn Security The Hard Way">
+		<meta name="author" content="Marielle Volz">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<script src="./jquery/dist/jquery.js"></script>
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Learn Security the Hard Way</h1>
+					<h3>Writing insecure web applications</h3>
+						<aside class="notes">
+							IF YOU CAN SEE THESE NOTES YOUR PRESENTER IS INCOMPETENT.
+						</aside>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<section>
+						<img src="./static/owaspbig.png"></img>
+						<aside class="notes">
+							Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+						</aside>
+					</section>
+					<section>
+						<h3><a href="https://www.owasp.org/index.php/Top_10_2013-Top_10" target="_blank">OWASP Top 10 2013</h3>
+						<iframe src="./static/Top%2010%202013-Top%2010%20-%20OWASP.html" width='1000' height = '2000'></iframe>
+					</section>
+					<section>
+					<h3>JPMorgan Attack</h3>
+					<blockquote>By the time the bank’s security team discovered the breach in late July, hackers had already obtained the highest level of administrative privilege to dozens of the bank’s computer servers, according to the people with knowledge of the investigation. </blockquote>
+					- <a href="http://dealbook.nytimes.com/2014/10/02/jpmorgan-discovers-further-cyber-security-issues/">NYTimes Oct 2, 2014</a>
+					</section>
+					<section>
+					<h3>JPMorgan Attack</h3>
+					<a ref="https://www.documentcloud.org/documents/1308629-jpmorgan-on-cyberattack.html">JPMorgan on Cyber Attack</a>
+					</section>
+					<section>
+						<h3>Shellshock</h3>
+						<a href="http://blog.cloudflare.com/inside-shellshock/">Inside shellshock</a>
+					</section>
+
+				</section>
+
+				<section data-state="injection">
+					<section>
+					<h1><a href="https://www.owasp.org/index.php/Top_10_2013-A1-Injection" title="Top 10 2013-A1-Injection">A1-Injection
+					</a>
+					</h1>
+					<p>Injection flaws, such as SQL, OS, and LDAP injection occur when untrusted data is sent to an interpreter as part of a command or query. The attacker’s hostile data can trick the interpreter into executing unintended commands or accessing data without proper authorization.
+					</p>
+					</section>
+					<section>
+					<h2>SQL injection</h2>
+					<a href="http://xkcd.com/327/"><img src="./static/exploits_of_a_mom.png"></a></section>
+					<section>
+					<h2>Shell injection</h2>
+					<a href="http://www.tessoflaherty.com/eembeam/?p=59"><img src="./static/vote_for_bender.jpg"></a>
+					<audio data-autoplay src="./static/fightsong.mp3"></audio>
+					<h4>Case study: United States Midterm Elections, 2010</h4>
+					</section>
+					<section>
+					<h4>Case study: United States Midterm Elections, 2010</h4>
+					Upload ballot: 'ballot.$(malicious_command)'
+					<pre>
+					<code data-trim contenteditable>File.expand_path(ballot.$(malicious_command))</code>
+					<code data-trim contenteditable>run ( " gpg " , "−−trust −model always −o
+\"#{ File.expand_path ( dst.path ) }
+\" −e −r
+\"#{ @recipient }
+\"
+\"#{ File.expand_path (ballot.$(malicious_command)) }
+\" " )
+</code>
+</pre>
+Rails PaperClip Plug-in 2.3.2 + performs path filtering.
+					</section>
+					<section>
+					<a href="http://www.eecs.umich.edu/eecs/about/articles/2012/dcvoting-fc12.pdf">Attacking the Washington, D. C. Internet Voting System</a>, by Scott Wolchok, Eric Wustrow, Dawn Isabel, and J. Alex Halderman. Presented at the 16th Conference on Financial Cryptography and Data Security, Feb. 28, 2012, Kralendijk, Bonaire.
+					</section>
+
+					<section>
+						<h2>Solution</h2>
+						<p>Never use: exec(), eval(), passthru(), shell_exec()</p>
+						<p>Use caution: setTimeout(), setInterval(), new Function() </p>
+						<p>System-run jobs: be careful!</p>
+					</section>
+				</section>
+
+				<section data-state="auth">
+					<section>
+					<h3><a href="https://www.owasp.org/index.php/Top_10_2013-A2-Broken_Authentication_and_Session_Management" title="Top 10 2013-A2-Broken Authentication and Session Management">
+					A2-Broken Authentication and Session Management
+					</a></h3>
+					<p>Application functions related to authentication and session management are often not implemented correctly, allowing attackers to compromise passwords, keys, or session tokens, or  to exploit other implementation flaws to assume other users’ identities.
+					</p>
+					</section>
+
+					<section>
+					<h3>How hashing &amp; salting works</h3>
+
+					<h4 class="fragment" data-fragment-index="0">Making the hash</h4>
+					<p>
+					<span class = "fragment fade-out" data-fragment-index="3">
+
+						<span class="fragment" data-fragment-index="1">
+							"password"
+						</span>
+
+						<span class="fragment" data-fragment-index="2">
+							+ "x@de*pfj%n$m_i_am_a_nice_long_salt"
+						</span>
+
+					</span>
+
+						<span class="fragment" data-fragment-index="5">hash_algorithm(</span><span class="fragment"data-fragment-index="4">"passwordx@de*pfj%n$m_i_am_a_nice_long_salt"</span><span class="fragment"data-fragment-index="5">)</span>
+				
+
+					<span class = "fragment" data-fragment-index="7">'08d399fe2647d383277a91729476c61e'</span>
+						</p>
+						<br/>
+					<h4 class="fragment" data-fragment-index="8">Storing the hash</h4><br/>
+						<small>
+						<table class="fragment" data-fragment-index="9">
+						  <tr>
+						    <th>Username</th>
+						    <th>Salt</th> 
+						    <th>Hash</th>
+						  </tr>
+						  <tr>
+						    <td>marielle</td>
+						    <td>x@de*pfj%n$m_i_am_a_nice_long_salt</td> 
+						    <td>08d399fe2647d383277a91729476c61e</td>
+						  </tr>
+						  <tr>
+						    <td>elspeth</td>
+						    <td>k*dmxxqhtk+eia</td> 
+						    <td>561ec798ae164f2ab6ac4fbc70bac973</td>
+						  </tr>
+						</table>
+						</small>
+						<br/>
+						<br/>
+					<h4 class="fragment">Checking users passwords</h4>
+						<span class="fragment">
+						hashing_algorithm(user_entered_pwd+salt_from_db) == hashed_value_from_db
+						</span>
+					</section>
+					<section>
+<h2>Wrong way</h2>
+<pre>
+<code data-trim contenteditable>
+U_SALT = "g8k"
+
+if 'password' in request.GET:
+	password = request.GET['password'].strip().lower()
+	if password_hash == md5(password+U_SALT).hexdigest():
+</code>
+</pre>
+					<aside class="notes">How many things can you find wrong with this? Salt too short, salt global variable (same for every password), password getting sent through GET rather than POST (will be in URL, which exposes it)</aside>
+					</section>
+					<section>
+					<h2>Right way</h2>
+					<h3>Bcrypt Node.js</h3>
+<pre>
+<code data-trim contenteditable>
+//To hash a password:
+
+var bcrypt = require('bcrypt');
+
+bcrypt.genSalt(12, function(err, salt) {
+    bcrypt.hash("my password", salt, function(err, hash) {
+        // Store hash in your password DB.
+    });
+});
+
+//To check a password:
+
+// Load hash from your password DB.
+bcrypt.compare("my password", hash, function(err, res) {
+    // res == true
+});
+bcrypt.compare("not my password", hash, function(err, res) {
+    // res == false
+});
+</code>
+</pre>
+					</section>
+					<section>
+					<h3>Ruby</h3>
+					<p> Rails >= 3 ship with ActiveModel::SecurePassword which uses bcrypt-ruby.https://github.com/codahale/bcrypt-ruby</p>
+					<h3>Django</h3>
+					<p>Install extra library and set pwd hashing to bcrypt. https://docs.djangoproject.com/en/1.5/topics/auth/passwords/#using-bcrypt-with-django</p>
+					<h3>PHP</h3>
+					PHP >= 5.5 has bycript built directly in- use use password_hash() to create a bcrypt hash of any password. http://stackoverflow.com/a/6337021
+					</section>
+					<section>
+						<p><a href="http://resources.infosecinstitute.com/the-exponential-nature-of-password-cracking-costs/">Exponential nature of cracking passwords</a></p>
+						<iframe src="http://resources.infosecinstitute.com/the-exponential-nature-of-password-cracking-costs/" width='1000' height = '2000'></iframe>
+					</section>
+
+				</section>
+
+				<section data-state="xss">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A3-Cross-Site_Scripting_(XSS)" title="Top 10 2013-A3-Cross-Site Scripting (XSS)">
+						Cross-Site Scripting (XSS)
+						</a>
+						<p>XSS flaws occur whenever an application takes untrusted data and sends it to a web browser without proper validation or escaping. XSS allows attackers to execute scripts in the victim’s browser which can hijack user sessions, deface web sites, or redirect the user to malicious sites.
+						</p>
+					</section>
+					<section>
+					<h3>Case study: Tweetdeck</h3>
+					<blockquote class="twitter-tweet" lang="en"><p>&lt;script class=&quot;xss&quot;&gt;$(&#39;.xss&#39;).parents().eq(1).find(&#39;a&#39;).eq(1).click();$(&#39;[data-action=retweet]&#39;).click();alert(&#39;XSS in Tweetdeck&#39;)&lt;/script&gt;♥</p>&mdash; *arrrrndy (@derGeruhn) <a href="https://twitter.com/derGeruhn/status/476764918763749376">June 11, 2014</a></blockquote>
+					<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+					</section>
+					<section>
+					<h3>Solution: Templating languages</h3>
+					<p>Node: <a href="https://www.npmjs.org/package/jade">jade</a>, <a href="dustjs-linkedin">dustjs-linkedin</a></p>
+					<p>Django: <a href="https://docs.djangoproject.com/en/dev/topics/templates/">The Django template language</a></p>
+					<p>RoR: embedded Ruby (erb) -> <a href="http://molily.de/weblog/xss">Frontend security and Cross-Site Scripting (XSS) for Ruby on Rails developers</a></p>
+					<p>Wordpress/PHP: <a href="https://github.com/fabpot/Twig">Twig</a></p>
+					</section>
+					<section>
+					<h3>User formatting: Markup languages</h3>
+					<p>G+: Disallowed</p>
+					<p>FB: Disallowed</p>
+					<p>Reddit &amp; Ello: <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a></p>
+					<p>Wikipedia: Wikitext</p>
+					<p>BBCode</p>
+					<p>Visual Editors- HTML editors: Wordpress/mediawiki</p>
+					</section>
+				</section>
+
+				<section data-state="direct">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References" title="Top 10 2013-A4-Insecure Direct Object References">
+						A4-Insecure Direct Object References
+						</a>
+						<p>A direct object reference occurs when a developer exposes a reference to an internal implementation object, such as a file, directory, or database key. Without an access control check or other protection, attackers can manipulate these references to access unauthorized data.
+						</p>
+					</section>
+					<section><p>Errors on page debugging</p>
+						<h3>Django</h3>
+						<code data-trim contenteditable>DEBUG = True</code>
+						<aside class="notes">
+							Most common way this happens is actually within the web application itself. A very common way is with site errors that are presented to the user. Most web frameworks have a debugging method that you can turn off for production, make sure you do this! And even if you leave it on, they often restrict the most sensitive data, for instance in Django debug=true will never leak your secret key. Okay, what if you aren't using a framework like RoR or Django...
+						</aside>
+					</section>
+
+					<section>
+					<h3>Ruby on Rails</h3>
+					<p><a href="https://github.com/charliesome/better_errors">Better errors plug-in</a></p>
+					<img src = "./static/bettererrors.png">
+					<aside class="notes">
+							Doesn't come packaged with error logging to page by default. 
+
+							Can use package called better errors. This is already more secure than Django's error page because it will only display the errors if you are running the app from localhost, as an additional layer of protection. You should still make sure it's disabled in production. 
+
+						</aside>
+					</section>
+					<section>
+					<h3>PHP/Node</h3>
+					<img src = "./static/nodeerrors.png">
+					<img src = "./static/phperrors.png">
+
+					</section>
+
+
+				</section>
+
+				<section data-state="misconfig">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A5-Security_Misconfiguration" title="Top 10 2013-A5-Security Misconfiguration">
+						A5-Security Misconfiguration
+						</a>
+						<p>Good security requires having a secure configuration defined and deployed for the application, frameworks, application server, web server, database server, and platform. Secure settings should be defined, implemented, and maintained, as defaults are often insecure. Additionally, software should be kept up to date.
+						</p>
+						<aside class="notes">umich example, the gov claimed they were using a new version of the package that hadn't been tested well, but in the current version the bug had been patched... so this was a case where out of date software was a big issue!</aside>
+					</section>
+					<section>
+					<h3>Common mistakes</h3>
+					<ul>
+					<li class="fragment">admin : password</li>
+					<li class="fragment">Non-secure default settings- <a href="https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/">Django deployment checklist</a></li>
+					<li class="fragment">Missing headers - <a href="https://www.owasp.org/index.php/List_of_useful_HTTP_headers">OWASP: List of useful HTTP headers</a></li>
+					<li class="fragment">Buy an SSL certificate!</li>
+					<li class="fragment">Lack of logging: Node has no apache logs! (<a href="https://www.npmjs.org/package/winston">winston</a>, <a href="https://www.npmjs.org/package/bunyan">Bunyan</a>)</li>
+					</ul>
+					<p>-Matt Lowe, <a href="https://blog.liftsecurity.io/2014/08/15/Node-Security-and-Performance-Training-is-coming-to-London">Node Security Training"</a> 16-09-14</p>
+					<aside class = "notes">
+						I couldn't use iframes a lot on this presentation because of X-Frame-Options: deny option was set on a lot of sites! 
+						Prevents click jacking, where someone uses your website in another website. 
+					</aside>
+					</section>
+					<section>
+						<p>Don't use public githubs as production repositories...</p>
+
+						<pre class="fragment">
+<code data-trim contenteditable>
+# Django settings.py
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # ('Your Name', 'your_email@example.com'),
+)
+
+MANAGERS = ADMINS
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '/mypath/mypath/mydb.db',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+TIME_ZONE = 'America/Detroit'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'en-us'
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
+USE_L10N = True
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/home/media/media.lawrence.com/media/"
+MEDIA_ROOT = ''
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = ''
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/home/media/media.lawrence.com/static/"
+STATIC_ROOT = ''
+
+# URL prefix for static files.
+# Example: "http://media.lawrence.com/static/"
+STATIC_URL = '/static/'
+
+# URL prefix for admin static files -- CSS, JavaScript and images.
+# Make sure to use a trailing slash.
+# Examples: "http://foo.com/static/admin/", "/static/admin/".
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '*zie$h=6e)7x1q70rxq$%2&l$3cz40i$^u8$wq$^%(5754*$ma'
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+   # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+ROOT_URLCONF = 'thissite.urls'
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    
+)
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    'django.contrib.humanize',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+    'cms',
+    
+)
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
+
+</code>
+</pre>
+						<small><a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY">Django secret key documentation</a></small>
+					</section>
+
+					<section><a href ="https://github.com/search?l=python&p=7&q=SECRET_KEY&ref=searchresults&type=Code&utf8=%E2%9C%93">Django: Search github</a>
+					<img src='./static/github.png'>
+					</section>
+
+					<section><a href ="https://github.com/search?p=4&q=secret_token&ref=searchresults&type=Code&utf8=%E2%9C%93">Rails: Search github</a>
+					<img src='./static/githubrails.png'>
+					<a href="http://robertheaton.com/2013/07/22/how-to-hack-a-rails-app-using-its-secret-token/">How to hack a rails app using its secret token</a>
+					<p>Add to .gitignore:Rails &lt;=4.0, secret_token.rb, Rails > 4.1, secrets.yml</p>
+					</section>
+				</section>
+
+				<section data-state="sensitive">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A6-Sensitive_Data_Exposure" title="Top 10 2013-A6-Sensitive Data Exposure">
+						Sensitive Data Exposure
+						</a>
+						<p>Many web applications do not properly protect sensitive data, such as credit cards, tax IDs, and authentication credentials. Attackers may steal or modify such weakly protected data to conduct credit card fraud, identity theft, or other crimes. Sensitive data deserves extra protection such as encryption at rest or in transit, as well as special precautions when exchanged with the browser.
+						</p>
+					</section>
+					<section>
+					<blockquote class="twitter-tweet" lang="en"><p>base64_encode($credit_card_number);&#10;&#10;<a href="http://t.co/ETRrmn0RYM">pic.twitter.com/ETRrmn0RYM</a></p>&mdash; Jan Lehnardt (@janl) <a href="https://twitter.com/janl/status/513714191665233920">September 21, 2014</a></blockquote>
+					<img src="./static/sensitiveinfo.jpg"/>
+					<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+					<section>
+					<h1>Don't do this!</h1>
+					<iframe src="./static/How%20to%20Encrypt%20Credit%20Card%20Information%20in%20an%20SQL%20Database%20%20%20eHow.html" width='1000' height = '2000'></iframe>
+					<aside class="notes">Encoding is easily reversible. Encryption is not.</aside>
+					</section>
+					<section>
+					<h3>Common errors</h3>
+					<p class="fragment">Sensitive data in url (GET)</p>
+					<p class="fragment">Exposing data via API</p>
+					<blockquote class="twitter-tweet fragment" lang="en"><p>Want to see if your friends are on Ello? &#10;Just use the API directly to query their email (useful for spammers too) <a href="http://t.co/QEXFNluvpW">pic.twitter.com/QEXFNluvpW</a></p>&mdash; ashkan soltani (@ashk4n) <a href="https://twitter.com/ashk4n/status/517453205157191680">October 1, 2014</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+					</section>
+				</section>
+
+				<section data-state="missingcontrol">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control" title="Top 10 2013-A7-Missing Function Level Access Control">
+						A7-Missing Function Level Access Control
+						</a>
+						<p>Most web applications verify function level access rights before making that functionality visible in the UI. However, applications need to perform the same access control checks on the server when each function is accessed. If requests are not verified, attackers will be able to forge requests in order to access functionality without proper authorization.
+						</p>
+					</section>
+				</section>
+
+				<section data-state="csrf">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A8-Cross-Site_Request_Forgery_(CSRF)" title="Top 10 2013-A8-Cross-Site Request Forgery (CSRF)">
+						A8-Cross-Site Request Forgery (CSRF)
+						</a>
+						<p>A CSRF attack forces a logged-on victim’s browser to send a forged HTTP request, including the victim’s session cookie and any other automatically included authentication information, to a vulnerable web application. This allows the attacker to force the victim’s browser to generate requests the vulnerable application thinks are legitimate requests from the victim.
+						</p>
+					</section>
+					<aside class = "notes">
+					CSRF is a sleeping giant. 
+					</aside>
+					<section>
+					<p>Ruby on Rails and Django both have built-in CSRF support, but verify they are working properly on your app.</p>
+					<p><a href = "https://www.owasp.org/index.php/CSRFTester">OWASP CSRF Tester</a></p>
+					</section>
+				</section>
+
+				<section data-state="known">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A9-Using_Components_with_Known_Vulnerabilities" title="Top 10 2013-A9-Using Components with Known Vulnerabilities">Using Components with Known Vulnerabilities
+						</a>
+						<p>Components, such as libraries, frameworks, and other software modules, almost always run with full privileges. If  a vulnerable component is exploited, such an attack can facilitate serious data loss or server takeover. Applications using components with known vulnerabilities may undermine application defenses and enable a range of possible attacks and impacts.
+						</p>
+					</section>
+					<section>
+					<h4>Node.js</h4>
+					<blockquote>
+					retire.js: The goal of Retire.js is to help you detect the use of module versions with known vulnerabilities. Simply install with npm install -g retire. After that, running it with the retire command will look for vulnerabilities in your node_modules directory. -- <a href="http://blog.risingstack.com/node-js-security-tips/">Node.hs Security Tips</a>
+					</blockquote>
+					</section>
+				</section>
+
+				<section data-state="redirect">
+					<section>
+						<a href="https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards" title="Top 10 2013-A10-Unvalidated Redirects and Forwards">Unvalidated Redirects and Forwards
+						</a>
+						<p>Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards to access unauthorized pages. 
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<h4>Interested in learning these frameworks?</h4>
+					<p>Free introductory workshops in London:</p>
+					<p>
+					<img src="./static/djangogirls.png"><p><a href="http://djangogirls.org/">Django Girls London</a> / <a href="pyladieslondon.github.io">PyLadies London</a><p>
+					</p>
+					<p>
+					<img src="./static/rails_girls_london_cats.jpg" width="200px"><p><a href="http://railsgirls.com/london">Rails Girls London</a></p>
+					</p>
+					<p>
+					<img src="./static/schoollines.png" width="200px"><p><a href="http://nodeschool.io/london/"> Node School London</a></p>
+					</p>
+				</section>
+
+				<section>
+				<h3>Framework Specific Guides</h3>
+				<h4>Ruby on Rails</h4>
+				<p><a href="http://guides.rubyonrails.org/security.html">Ruby on Rails Security Guide</a></p>
+				<h4>Django</h4>
+				<p><a href="https://docs.djangoproject.com/en/dev/topics/security/">Security in Django</a></p>
+				<h4>Express (Node.js)</h4>
+				<p><a href="https://blog.liftsecurity.io/2012/12/07/writing-secure-express-js-apps">Writing secure express.js apps</a></p>
+				<h4>PHP</h4>
+				<p class="fragment fade-out"><span class="fragment fade-out">It's hopeless</span></p>
+				<p class= "fragment"><a href="https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet">OWASP PHP Security Cheat Sheet</a></p>
+
+				</section>
+
+				<section data-state="gentools">
+					<section>
+					<h2>Pen(etration) testing tools</h2>
+						<img src="./static/mantraicon.jpg"></img>
+						<h4><a href="http://sourceforge.net/projects/getmantra/">OWASP Mantra - Security Framework</a></h4>
+						<p>Free and Open Source Browser based Security Framework</p>
+						<img src="./static/zedicon.png"></img>
+						<h4><a href="http://sourceforge.net/projects/zaproxy/">Zed Attack Proxy</a></h4>
+						<p>Find web application vulnerabilities the easy way!</p>
+					</section>
+				</section>
+
+				<section>
+				<h4><a href="https://wiki.gnome.org/OutreachProgramForWomen">FOSS Outreach Program For Women</a></h4>
+				<img src="./static/opw-poster-2014-December-March.png" />
+				</section>
+
+				<section data-state="learn">
+					<section>
+					<h3>Now Let's Really Learn Security the Hard Way...</h3>
+					<small>(Secretly known as the the easy way)</small>
+					<h4>Track 1:</h4><p>Experience programming in Node.js and/or completed <a href ="http://nodeschool.io/">nodeschool.io's</a> 'learnyounode' and 'levelmeup'
+					</p>
+<pre><code data-trim contenteditable>
+sudo npm install -g security-adventure
+security-adventure
+</code></pre>
+					<h4>Track 2:</h4><p>Everyone else! You don't have to know how to code, period, to do these- although it will go a lot faster if you do, of course! You'll get the most out of these exercises if you type. everything. by. hand. </p>
+					<p>
+					<a href="http://blog.mvolz.com/category/lsthw/">-&gt;Learn Security the Hard Way with Node.js&lt;-</a>
+					</p>
+						<aside class="notes">
+							This is like the difference between taking handwritten notes in class vs. taking photos of slides with your camera phone. You'll grok a lot more, even though it's tedious.
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h1>THE END</h1>
+					<h3>by marielle volz / mvolz.com </h3>
+					<p>License: CC by 3.0</p>
+					<h3>Thanks to:</h3>
+					<p><a href="http://www.ladieswhocode.com/">Ladies Who Code</a> and <a href="https://liftsecurity.io/">^Lift Security</a>, who provided me with <a href="http://blog.mvolz.com/2014/09/i-got-a-scholarship-and-went-to-node-security-and-performance-training/">a scholarship to their training session!</a></p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>-+
