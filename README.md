@@ -1,2 +1,3 @@
-Learn Security The Hard Way, Speakers Series, Ladies Who Code 2014
+Learning Security The Hard Way
 ========================================
+Writing Insecure Web Applications

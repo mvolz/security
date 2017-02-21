@@ -4,9 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Learn Security the Hard Way</title>
+		<title>Learning Security the Hard Way</title>
 
-		<meta name="description" content="Learn Security The Hard Way">
+		<meta name="description" content="Learning Security The Hard Way">
 		<meta name="author" content="Marielle Volz">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -45,7 +45,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>Learn Security the Hard Way</h1>
+					<h1>Learning Security the Hard Way</h1>
 					<h3>Writing insecure web applications</h3>
 						<aside class="notes">
 							IF YOU CAN SEE THESE NOTES YOUR PRESENTER IS INCOMPETENT.
@@ -152,7 +152,7 @@ Rails PaperClip Plug-in 2.3.2 + performs path filtering.
 					</span>
 
 						<span class="fragment" data-fragment-index="5">hash_algorithm(</span><span class="fragment"data-fragment-index="4">"passwordx@de*pfj%n$m_i_am_a_nice_long_salt"</span><span class="fragment"data-fragment-index="5">)</span>
-				
+
 
 					<span class = "fragment" data-fragment-index="7">'08d399fe2647d383277a91729476c61e'</span>
 						</p>
@@ -162,17 +162,17 @@ Rails PaperClip Plug-in 2.3.2 + performs path filtering.
 						<table class="fragment" data-fragment-index="9">
 						  <tr>
 						    <th>Username</th>
-						    <th>Salt</th> 
+						    <th>Salt</th>
 						    <th>Hash</th>
 						  </tr>
 						  <tr>
 						    <td>marielle</td>
-						    <td>x@de*pfj%n$m_i_am_a_nice_long_salt</td> 
+						    <td>x@de*pfj%n$m_i_am_a_nice_long_salt</td>
 						    <td>08d399fe2647d383277a91729476c61e</td>
 						  </tr>
 						  <tr>
-						    <td>elspeth</td>
-						    <td>k*dmxxqhtk+eia</td> 
+						    <td>chimamanda</td>
+						    <td>k*dmxxqhtk+eia</td>
 						    <td>561ec798ae164f2ab6ac4fbc70bac973</td>
 						  </tr>
 						</table>
@@ -291,9 +291,9 @@ bcrypt.compare("not my password", hash, function(err, res) {
 					<p><a href="https://github.com/charliesome/better_errors">Better errors plug-in</a></p>
 					<img src = "./static/bettererrors.png">
 					<aside class="notes">
-							Doesn't come packaged with error logging to page by default. 
+							Doesn't come packaged with error logging to page by default.
 
-							Can use package called better errors. This is already more secure than Django's error page because it will only display the errors if you are running the app from localhost, as an additional layer of protection. You should still make sure it's disabled in production. 
+							Can use package called better errors. This is already more secure than Django's error page because it will only display the errors if you are running the app from localhost, as an additional layer of protection. You should still make sure it's disabled in production.
 
 						</aside>
 					</section>
@@ -327,8 +327,8 @@ bcrypt.compare("not my password", hash, function(err, res) {
 					</ul>
 					<p>-Matt Lowe, <a href="https://blog.liftsecurity.io/2014/08/15/Node-Security-and-Performance-Training-is-coming-to-London">Node Security Training</a> 16-09-14</p>
 					<aside class = "notes">
-						I couldn't use iframes a lot on this presentation because of X-Frame-Options: deny option was set on a lot of sites! 
-						Prevents click jacking, where someone uses your website in another website. 
+						I couldn't use iframes a lot on this presentation because of X-Frame-Options: deny option was set on a lot of sites!
+						Prevents click jacking, where someone uses your website in another website.
 					</aside>
 					</section>
 					<section>
@@ -496,7 +496,7 @@ except ImportError:
 
 </code>
 </pre>
-						<small><a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY">Django secret key documentation</a></small>
+					<small><a href="https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY">Django secret key documentation</a></small>
 					</section>
 
 					<section><a href ="https://github.com/search?l=python&p=7&q=SECRET_KEY&ref=searchresults&type=Code&utf8=%E2%9C%93">Django: Search github</a>
@@ -555,7 +555,7 @@ except ImportError:
 						</p>
 					</section>
 					<aside class = "notes">
-					CSRF is a sleeping giant. 
+					CSRF is a sleeping giant.
 					</aside>
 					<section>
 					<p>Ruby on Rails and Django both have built-in CSRF support, but verify they are working properly on your app.</p>
@@ -582,26 +582,13 @@ except ImportError:
 					<section>
 						<a href="https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards" title="Top 10 2013-A10-Unvalidated Redirects and Forwards">Unvalidated Redirects and Forwards
 						</a>
-						<p>Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards to access unauthorized pages. 
+						<p>Web applications frequently redirect and forward users to other pages and websites, and use untrusted data to determine the destination pages. Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards to access unauthorized pages.
 						</p>
 					</section>
 				</section>
 
-				<section>
-					<h4>Interested in learning these frameworks?</h4>
-					<p>Free introductory workshops in London:</p>
-					<p>
-					<img src="./static/djangogirls.png"><p><a href="http://djangogirls.org/">Django Girls London</a> / <a href="pyladieslondon.github.io">PyLadies London</a><p>
-					</p>
-					<p>
-					<img src="./static/rails_girls_london_cats.jpg" width="200px"><p><a href="http://railsgirls.com/london">Rails Girls London</a></p>
-					</p>
-					<p>
-					<img src="./static/schoollines.png" width="200px"><p><a href="http://nodeschool.io/london/"> Node School London</a></p>
-					</p>
-				</section>
-
-				<section>
+				<section data-state="guides">
+					<section>
 				<h3>Framework Specific Guides</h3>
 				<h4>Ruby on Rails</h4>
 				<p><a href="http://guides.rubyonrails.org/security.html">Ruby on Rails Security Guide</a></p>
@@ -612,52 +599,29 @@ except ImportError:
 				<h4>PHP</h4>
 				<p class="fragment fade-out"><span class="fragment fade-out">It's hopeless</span></p>
 				<p class= "fragment"><a href="https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet">OWASP PHP Security Cheat Sheet</a></p>
-
+					</section>
 				</section>
 
 				<section data-state="gentools">
-					<section>
-					<h2>Pen(etration) testing tools</h2>
-						<img src="./static/mantraicon.jpg"></img>
-						<h4><a href="http://sourceforge.net/projects/getmantra/">OWASP Mantra - Security Framework</a></h4>
-						<p>Free and Open Source Browser based Security Framework</p>
-						<img src="./static/zedicon.png"></img>
-						<h4><a href="http://sourceforge.net/projects/zaproxy/">Zed Attack Proxy</a></h4>
-						<p>Find web application vulnerabilities the easy way!</p>
-					</section>
-				</section>
-
 				<section>
-				<h4><a href="https://wiki.gnome.org/OutreachProgramForWomen">FOSS Outreach Program For Women</a></h4>
-				<img src="./static/opw-poster-2014-December-March.png" />
+				<h2>Pen(etration) testing tools</h2>
+					<img src="./static/mantraicon.jpg"></img>
+					<h4><a href="http://sourceforge.net/projects/getmantra/">OWASP Mantra - Security Framework</a></h4>
+					<p>Free and Open Source Browser based Security Framework</p>
+					<img src="./static/zedicon.png"></img>
+					<h4><a href="http://sourceforge.net/projects/zaproxy/">Zed Attack Proxy</a></h4>
+					<p>Find web application vulnerabilities the easy way!</p>
+				</section>
 				</section>
 
-				<section data-state="learn">
-					<section>
-					<h3>Now Let's Really Learn Security the Hard Way...</h3>
-					<small>(Secretly known as the the easy way)</small>
-					<h4>Track 1:</h4><p>Experience programming in Node.js and/or completed <a href ="http://nodeschool.io/">nodeschool.io's</a> 'learnyounode' and 'levelmeup'
-					</p>
-<pre><code data-trim contenteditable>
-sudo npm install -g security-adventure
-security-adventure
-</code></pre>
-					<h4>Track 2:</h4><p>Everyone else! You don't have to know how to code, period, to do these- although it will go a lot faster if you do, of course! You'll get the most out of these exercises if you type. everything. by. hand. </p>
-					<p>
-					<a href="http://blog.mvolz.com/category/lsthw/">-&gt;Learn Security the Hard Way with Node.js&lt;-</a>
-					</p>
-						<aside class="notes">
-							This is like the difference between taking handwritten notes in class vs. taking photos of slides with your camera phone. You'll grok a lot more, even though it's tedious.
-						</aside>
-					</section>
-				</section>
-
+				<section data-state="end">
 				<section>
 					<h1>THE END</h1>
-					<h3>by marielle volz / mvolz.com </h3>
-					<p>License: CC by 3.0</p>
+					<h3>by marielle volz / @mariellevolz </h3>
+					<p>License: CC-SA by 4.0</p>
 					<h3>Thanks to:</h3>
-					<p><a href="http://www.ladieswhocode.com/">Ladies Who Code</a> and <a href="https://liftsecurity.io/">^Lift Security</a>, who provided me with <a href="http://blog.mvolz.com/2014/09/i-got-a-scholarship-and-went-to-node-security-and-performance-training/">a scholarship to their training session!</a></p>
+					<p><a href="https://liftsecurity.io/">^Lift Security</a>, who provided me with a scholarship to their training session.</a></p>
+				</section>
 				</section>
 
 			</div>
